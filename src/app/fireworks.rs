@@ -7,13 +7,17 @@ use sfml::graphics::*;
 use sfml::system::*;
 
 pub struct FireworksCtx<'a> {
-    fireworks: Vec<Firework<'a>>
+    fireworks: Vec<Firework<'a>>,
+    next_spawn: f32,
+    time: f32,
 }
 
 impl FireworksCtx<'_> {
     pub fn new() -> FireworksCtx<'static> {
         FireworksCtx {
             fireworks: Vec::new(),
+            next_spawn: 0.,
+            time: 0.,
         }
     }
 }
@@ -123,11 +127,17 @@ fn create_firework(ctx: &mut FireworksCtx) {
 }
 
 pub fn update_fireworks(ctx: &mut FireworksCtx, delta: f32) {
-    if ctx.fireworks.len() <= 0 && random() {
+    ctx.time += delta;
+    if ctx.fireworks.len() < 12 && ctx.next_spawn <= ctx.time {
         create_firework(ctx);
+        ctx.next_spawn = random::<f32>() % 5.;
+        ctx.time = 0.;
     }
     for i in 0..ctx.fireworks.len() {
-        let mut firework = ctx.fireworks.get_mut(i).unwrap();
+        let mut firework = ctx.fireworks.get_mut(i);
+        if !firework.is_some() { break; }
+        let mut firework = firework.unwrap();
+
         firework.update(delta);
         if firework.should_die == true {
             ctx.fireworks.remove(i);
