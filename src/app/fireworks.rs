@@ -20,21 +20,27 @@ impl FireworksCtx<'_> {
 
 struct Firework<'a> {
     explode: bool,
+    should_die: bool,
     position: Vector2f,
     velocity: Vector2f,
     rocket: CircleShape<'a>,
     particles: Vec<Particle<'a>>,
+    lifetime: f32,
 }
 
 impl Firework<'_> {
     pub fn new() -> Firework<'static> {
-        Firework {
+        let mut firework = Firework {
             explode: false,
+            should_die: false,
             position: Vector2f::new((random::<u32>() % WINDOW_WIDTH) as f32, WINDOW_HEIGHT as f32),
             velocity: Vector2f::new(0., -600.),
-            rocket: CircleShape::new(5., 10),
+            rocket: CircleShape::new(8., 10),
             particles: Vec::new(),
-        }
+            lifetime: 0.,
+        };
+        firework.rocket.set_fill_color(Color::BLACK);
+        firework
     }
 
     pub fn position(&self) -> Vector2f {
@@ -45,6 +51,12 @@ impl Firework<'_> {
     }
 
     pub fn update(&mut self, delta: f32) {
+        // Keep track of lifetime
+        self.lifetime += delta;
+        if self.lifetime >= 5. {
+            self.should_die = true;
+        }
+
         if !self.explode {
             // Add gravity
             self.velocity.y += 500. * delta;
@@ -84,11 +96,13 @@ struct Particle<'a> {
 
 impl Particle<'_> {
     pub fn new(pos: Vector2f) -> Particle<'static> {
-        Particle {
+        let mut particle = Particle {
             velocity: Vector2f::new((random::<f32>() - 0.5) * 500., (random::<f32>() - 0.5) * 500.),
             position: pos,
-            shape: CircleShape::new(2., 5),
-        }
+            shape: CircleShape::new(3., 5),
+        };
+        particle.shape.set_fill_color(Color::rgb(random(), random(), random()));
+        particle
     }
     pub fn update(&mut self, delta: f32) {
         // Add gravity
@@ -112,8 +126,12 @@ pub fn update_fireworks(ctx: &mut FireworksCtx, delta: f32) {
     if ctx.fireworks.len() <= 0 && random() {
         create_firework(ctx);
     }
-    for firework in &mut ctx.fireworks {
+    for i in 0..ctx.fireworks.len() {
+        let mut firework = ctx.fireworks.get_mut(i).unwrap();
         firework.update(delta);
+        if firework.should_die == true {
+            ctx.fireworks.remove(i);
+        }
     }
 }
 
