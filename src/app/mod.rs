@@ -9,9 +9,19 @@ use sfml::graphics::*;
 static WINDOW_WIDTH: u32 = 800;
 static WINDOW_HEIGHT: u32 = 600;
 
+fn clamp_position(flake: &mut CircleShape) {
+    if flake.position().x > WINDOW_WIDTH as f32 {
+        flake.move_((-(WINDOW_WIDTH as f32), 0.));
+    }
+    if flake.position().y > WINDOW_HEIGHT as f32 {
+        flake.move_((0., -(WINDOW_HEIGHT as f32)));
+    }
+}
+
 pub fn draw_snow(snow: &mut Vec<CircleShape>, window: &mut RenderWindow, delta: f32) {
     for flake in snow {
-        flake.move_((5. * delta, 10. * delta));
+        flake.move_((20. * delta, 50. * delta));
+        clamp_position(flake);
         window.draw(flake);
     }
 }
@@ -27,12 +37,17 @@ pub fn run_app() {
 
     // Create objects
     let mut snow: Vec<CircleShape> = Vec::new();
-    for _i in 1..10 {
+    for _i in 1..50 {
         snow.push(CircleShape::new(2., 5));
         let flake = snow.last_mut().unwrap();
-        flake.set_position(((random::<u32>() % WINDOW_WIDTH) as f32, 0.));
+
+        let pos: Vector2f = Vector2f::new(
+            (random::<u32>() % WINDOW_WIDTH) as f32,
+            (random::<u32>() % WINDOW_HEIGHT) as f32,
+        );
+
+        flake.set_position(pos);
         flake.set_fill_color(Color::WHITE);
-        let pos = flake.position();
     }
 
     let mut clock = Clock::start();
