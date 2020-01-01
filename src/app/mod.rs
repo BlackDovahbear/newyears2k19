@@ -29,7 +29,7 @@ pub fn run_app() {
     );
 
     let font = load_font();
-    let mut text = Text::new("Happy New Years 2019", &*font, 48);
+    let mut text = Text::new("Happy New Years 2019", &*font, 56);
     // Set text to center of screen
     let bounds = text.local_bounds();
     text.set_position((WINDOW_WIDTH as f32 / 2., WINDOW_HEIGHT as f32 / 2.));
