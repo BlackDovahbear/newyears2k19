@@ -25,7 +25,7 @@ impl SnowCtx<'_> {
 }
 
 pub fn update_snow(ctx: &mut SnowCtx, delta: f32) {
-    ctx.counter = ctx.counter + 1;
+    ctx.counter += 1;
     if !ctx.initialized {
         init_snow(ctx);
     }

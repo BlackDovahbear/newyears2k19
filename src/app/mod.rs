@@ -59,7 +59,7 @@ pub fn run_app() {
     loop {
         let delta = clock.restart().as_milliseconds() as f32 / 1000.;
         // Handle events
-        for event in window.poll_event() {
+        if let Some(event) = window.poll_event() {
             if let Event::Closed = event {
                 return;
             }

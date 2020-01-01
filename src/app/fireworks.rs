@@ -50,13 +50,6 @@ impl Firework<'_> {
         firework
     }
 
-    pub fn position(&self) -> Vector2f {
-        self.position
-    }
-    pub fn velocity(&self) -> Vector2f {
-        self.velocity
-    }
-
     pub fn update(&mut self, delta: f32) {
         // Keep track of lifetime
         self.lifetime += delta;
@@ -75,7 +68,7 @@ impl Firework<'_> {
             // Explode when vertical velocity is zero
             if self.velocity.y >= 0. {
                 self.explode = true;
-                for i in 1..50 {
+                for _i in 1..50 {
                     self.particles.push(Particle::new(self.position));
                 }
             }
@@ -150,14 +143,14 @@ pub fn update_fireworks(ctx: &mut FireworksCtx, delta: f32) {
         ctx.time = 0.;
     }
     for i in 0..ctx.fireworks.len() {
-        let mut firework = ctx.fireworks.get_mut(i);
-        if !firework.is_some() {
+        let firework = ctx.fireworks.get_mut(i);
+        if firework.is_none() {
             break;
         }
-        let mut firework = firework.unwrap();
+        let firework = firework.unwrap();
 
         firework.update(delta);
-        if firework.should_die == true {
+        if firework.should_die {
             ctx.fireworks.remove(i);
         }
     }
