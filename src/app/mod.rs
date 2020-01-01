@@ -11,8 +11,12 @@ use sfml::window::*;
 pub static WINDOW_WIDTH: u32 = 800;
 pub static WINDOW_HEIGHT: u32 = 600;
 
-fn draw_text(window: &mut RenderWindow) {
-    unimplemented!()
+fn load_font() -> SfBox<Font> {
+    let font = Font::from_file("../res/LiberationMono-Regular.ttf");
+    if font.is_none() {
+        println!("Error: Could not find font in \"../res/\" folder.");
+    }
+    font.unwrap()
 }
 
 pub fn run_app() {
@@ -23,6 +27,15 @@ pub fn run_app() {
         Style::CLOSE,
         &ContextSettings::default(),
     );
+
+    let font = load_font();
+    let mut text = Text::new("Happy New Years 2019", &*font, 48);
+    // Set text to center of screen
+    let bounds = text.local_bounds();
+    text.set_position((WINDOW_WIDTH as f32 / 2., WINDOW_HEIGHT as f32 / 2.));
+    text.move_((-bounds.width / 2., -bounds.height / 2.));
+    text.set_fill_color(Color::rgb(0x23, 0x4a, 0x1e));
+    text.set_outline_thickness(1.);
 
     let mut snow_ctx = snow::SnowCtx::new();
     let mut fireworks_ctx = fireworks::FireworksCtx::new();
@@ -41,10 +54,14 @@ pub fn run_app() {
         snow::update_snow(&mut snow_ctx, delta);
         fireworks::update_fireworks(&mut fireworks_ctx, delta);
         // Clear the window
-        window.clear(Color::rgb(0x3e, 0x4f, 0x63));
+        window.clear(Color::rgb(0x1e, 0x23, 0x4a));
         // Draw objects
         snow::draw_snow(&mut snow_ctx, &mut window);
         fireworks::draw_fireworks(&mut fireworks_ctx, &mut window);
+
+        // Draw text
+        window.draw(&text);
+        
         // Display things on screen
         window.display()
     }
