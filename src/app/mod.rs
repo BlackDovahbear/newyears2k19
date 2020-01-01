@@ -18,7 +18,7 @@ fn clamp_position(flake: &mut CircleShape) {
     }
 }
 
-pub fn draw_snow(snow: &mut Vec<CircleShape>, window: &mut RenderWindow, delta: f32) {
+fn draw_snow(snow: &mut Vec<CircleShape>, window: &mut RenderWindow, delta: f32) {
     for flake in snow {
         flake.move_((20. * delta, 50. * delta));
         clamp_position(flake);
