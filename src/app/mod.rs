@@ -2,6 +2,7 @@ extern crate rand;
 extern crate sfml;
 
 mod snow;
+mod fireworks;
 
 use sfml::graphics::*;
 use sfml::system::*;
@@ -24,6 +25,7 @@ pub fn run_app() {
     );
 
     let mut snow_ctx = snow::SnowCtx::new();
+    let mut fireworks_ctx = fireworks::FireworksCtx::new();
 
     let mut clock = Clock::start();
     loop {
@@ -37,10 +39,12 @@ pub fn run_app() {
 
         // Update objects
         snow::update_snow(&mut snow_ctx, delta);
+        fireworks::update_fireworks(&mut fireworks_ctx, delta);
         // Clear the window
         window.clear(Color::rgb(0x3e, 0x4f, 0x63));
         // Draw objects
         snow::draw_snow(&mut snow_ctx, &mut window);
+        fireworks::draw_fireworks(&mut fireworks_ctx, &mut window);
         // Display things on screen
         window.display()
     }
