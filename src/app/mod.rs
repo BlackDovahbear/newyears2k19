@@ -26,6 +26,19 @@ fn rainbow_text(text: &mut Text, t: f32) {
     text.set_fill_color(Color::rgb(r as u8, g as u8, b as u8));
 }
 
+fn create_text<'a>(string: &str, font: &'a Font) -> Text<'a> {
+    let mut text = Text::new(string, font, 56);
+    // Set text to center of screen
+    let bounds = text.local_bounds();
+    text.set_position((WINDOW_WIDTH as f32 / 2., WINDOW_HEIGHT as f32 / 2.));
+    text.move_((-bounds.width / 2., -bounds.height / 2.));
+    // Set appearance
+    text.set_fill_color(Color::rgb(0x23, 0x4a, 0x1e));
+    text.set_outline_color(Color::WHITE);
+    text.set_outline_thickness(1.);
+    text
+}
+
 pub fn run_app() {
     // Create the window of the application
     let mut window = RenderWindow::new(
@@ -36,14 +49,7 @@ pub fn run_app() {
     );
 
     let font = load_font();
-    let mut text = Text::new("Happy New Years 2019", &*font, 56);
-    // Set text to center of screen
-    let bounds = text.local_bounds();
-    text.set_position((WINDOW_WIDTH as f32 / 2., WINDOW_HEIGHT as f32 / 2.));
-    text.move_((-bounds.width / 2., -bounds.height / 2.));
-    text.set_fill_color(Color::rgb(0x23, 0x4a, 0x1e));
-    text.set_outline_color(Color::WHITE);
-    text.set_outline_thickness(1.);
+    let mut text = create_text("Happy New Years 2019", &*font);
 
     let mut snow_ctx = snow::SnowCtx::new();
     let mut fireworks_ctx = fireworks::FireworksCtx::new();
