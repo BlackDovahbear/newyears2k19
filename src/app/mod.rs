@@ -12,7 +12,7 @@ pub static WINDOW_WIDTH: u32 = 800;
 pub static WINDOW_HEIGHT: u32 = 600;
 
 fn load_font() -> SfBox<Font> {
-    let font = Font::from_file("../res/LiberationMono-Regular.ttf");
+    let font = Font::from_file("res/LiberationMono-Regular.ttf");
     if font.is_none() {
         println!("Error: Could not find font in \"../res/\" folder.");
     }
