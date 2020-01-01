@@ -1,8 +1,8 @@
 extern crate rand;
 extern crate sfml;
 
-use rand::*;
 use crate::app::*;
+use rand::*;
 use sfml::graphics::*;
 use sfml::system::*;
 
@@ -37,7 +37,10 @@ impl Firework<'_> {
         let mut firework = Firework {
             explode: false,
             should_die: false,
-            position: Vector2f::new((random::<u32>() % WINDOW_WIDTH) as f32, WINDOW_HEIGHT as f32),
+            position: Vector2f::new(
+                (random::<u32>() % WINDOW_WIDTH) as f32,
+                WINDOW_HEIGHT as f32,
+            ),
             velocity: Vector2f::new(0., -600.),
             rocket: CircleShape::new(8., 10),
             particles: Vec::new(),
@@ -72,7 +75,9 @@ impl Firework<'_> {
             // Explode when vertical velocity is zero
             if self.velocity.y >= 0. {
                 self.explode = true;
-                for i in 1..50 { self.particles.push(Particle::new(self.position)); }
+                for i in 1..50 {
+                    self.particles.push(Particle::new(self.position));
+                }
             }
         } else {
             for part in &mut self.particles {
@@ -102,12 +107,17 @@ struct Particle<'a> {
 impl Particle<'_> {
     pub fn new(pos: Vector2f) -> Particle<'static> {
         let mut particle = Particle {
-            velocity: Vector2f::new((random::<f32>() - 0.5) * 500., (random::<f32>() - 0.5) * 500.),
+            velocity: Vector2f::new(
+                (random::<f32>() - 0.5) * 500.,
+                (random::<f32>() - 0.5) * 500.,
+            ),
             position: pos,
             shape: CircleShape::new(3., 5),
             radius: 5.,
         };
-        particle.shape.set_fill_color(Color::rgb(random(), random(), random()));
+        particle
+            .shape
+            .set_fill_color(Color::rgb(random(), random(), random()));
         particle
     }
     pub fn update(&mut self, delta: f32) {
@@ -128,7 +138,6 @@ impl Particle<'_> {
     }
 }
 
-
 fn create_firework(ctx: &mut FireworksCtx) {
     ctx.fireworks.push(Firework::new());
 }
@@ -142,7 +151,9 @@ pub fn update_fireworks(ctx: &mut FireworksCtx, delta: f32) {
     }
     for i in 0..ctx.fireworks.len() {
         let mut firework = ctx.fireworks.get_mut(i);
-        if !firework.is_some() { break; }
+        if !firework.is_some() {
+            break;
+        }
         let mut firework = firework.unwrap();
 
         firework.update(delta);
@@ -157,4 +168,3 @@ pub fn draw_fireworks(ctx: &mut FireworksCtx, window: &mut RenderWindow) {
         firework.draw(window);
     }
 }
-

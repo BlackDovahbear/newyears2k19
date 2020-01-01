@@ -1,8 +1,8 @@
 extern crate rand;
 extern crate sfml;
 
-mod snow;
 mod fireworks;
+mod snow;
 
 use sfml::graphics::*;
 use sfml::system::*;
@@ -79,7 +79,7 @@ pub fn run_app() {
 
         // Draw text
         window.draw(&text);
-        
+
         // Display things on screen
         window.display()
     }
