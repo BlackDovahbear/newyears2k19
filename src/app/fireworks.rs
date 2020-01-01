@@ -96,6 +96,7 @@ struct Particle<'a> {
     velocity: Vector2f,
     position: Vector2f,
     shape: CircleShape<'a>,
+    radius: f32,
 }
 
 impl Particle<'_> {
@@ -103,18 +104,24 @@ impl Particle<'_> {
         let mut particle = Particle {
             velocity: Vector2f::new((random::<f32>() - 0.5) * 500., (random::<f32>() - 0.5) * 500.),
             position: pos,
-            shape: CircleShape::new(3., 5),
+            shape: CircleShape::new(3., 8),
+            radius: 5.,
         };
         particle.shape.set_fill_color(Color::rgb(random(), random(), random()));
         particle
     }
     pub fn update(&mut self, delta: f32) {
+        // Reduce radius
+        if self.radius > 0. {
+            self.radius -= 6. * delta;
+        }
         // Add gravity
         self.velocity.y += 250. * delta;
         // Add velocity to position
         self.position += self.velocity * delta;
-        // Set position
+        // Set attributes
         self.shape.set_position(self.position);
+        self.shape.set_radius(self.radius);
     }
     pub fn draw(&self, window: &mut RenderWindow) {
         window.draw(&self.shape);

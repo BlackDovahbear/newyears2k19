@@ -46,7 +46,7 @@ pub fn draw_snow(ctx: &mut SnowCtx, window: &mut RenderWindow) {
 
 fn init_snow(ctx: &mut SnowCtx) {
     for _i in 1..100 {
-        ctx.snow.push(CircleShape::new(2., 5));
+        ctx.snow.push(CircleShape::new(1.5, 5));
         let flake = ctx.snow.last_mut().unwrap();
 
         let pos: Vector2f = Vector2f::new(

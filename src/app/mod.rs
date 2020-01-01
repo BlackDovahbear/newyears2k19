@@ -54,7 +54,7 @@ pub fn run_app() {
         snow::update_snow(&mut snow_ctx, delta);
         fireworks::update_fireworks(&mut fireworks_ctx, delta);
         // Clear the window
-        window.clear(Color::rgb(0x1e, 0x23, 0x4a));
+        window.clear(Color::rgb(0, 10, 20));
         // Draw objects
         snow::draw_snow(&mut snow_ctx, &mut window);
         fireworks::draw_fireworks(&mut fireworks_ctx, &mut window);
