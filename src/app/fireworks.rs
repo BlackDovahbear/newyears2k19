@@ -43,7 +43,7 @@ impl Firework<'_> {
             particles: Vec::new(),
             lifetime: 0.,
         };
-        firework.rocket.set_fill_color(Color::BLACK);
+        firework.rocket.set_fill_color(Color::rgb(127, 127, 127));
         firework
     }
 
@@ -104,7 +104,7 @@ impl Particle<'_> {
         let mut particle = Particle {
             velocity: Vector2f::new((random::<f32>() - 0.5) * 500., (random::<f32>() - 0.5) * 500.),
             position: pos,
-            shape: CircleShape::new(3., 8),
+            shape: CircleShape::new(3., 5),
             radius: 5.,
         };
         particle.shape.set_fill_color(Color::rgb(random(), random(), random()));

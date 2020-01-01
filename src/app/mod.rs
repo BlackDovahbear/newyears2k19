@@ -19,6 +19,13 @@ fn load_font() -> SfBox<Font> {
     font.unwrap()
 }
 
+fn rainbow_text(text: &mut Text, t: f32) {
+    let r = f32::sin(t + 1.5) * 127. + 127.;
+    let g = f32::sin(t - 0.5) * 127. + 127.;
+    let b = f32::sin(t + 3.5) * 127. + 127.;
+    text.set_fill_color(Color::rgb(r as u8, g as u8, b as u8));
+}
+
 pub fn run_app() {
     // Create the window of the application
     let mut window = RenderWindow::new(
@@ -35,12 +42,14 @@ pub fn run_app() {
     text.set_position((WINDOW_WIDTH as f32 / 2., WINDOW_HEIGHT as f32 / 2.));
     text.move_((-bounds.width / 2., -bounds.height / 2.));
     text.set_fill_color(Color::rgb(0x23, 0x4a, 0x1e));
+    text.set_outline_color(Color::WHITE);
     text.set_outline_thickness(1.);
 
     let mut snow_ctx = snow::SnowCtx::new();
     let mut fireworks_ctx = fireworks::FireworksCtx::new();
 
     let mut clock = Clock::start();
+    let mut t: i32 = 0;
     loop {
         let delta = clock.restart().as_milliseconds() as f32 / 1000.;
         // Handle events
@@ -49,6 +58,9 @@ pub fn run_app() {
                 return;
             }
         }
+
+        t += 1;
+        rainbow_text(&mut text, t as f32 * delta);
 
         // Update objects
         snow::update_snow(&mut snow_ctx, delta);
