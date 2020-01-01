@@ -26,7 +26,7 @@ If any errors occur, please make an issue!
 ### Ubuntu
 For Ubuntu users, you can install all of the prerequisites with one command:
 ```sh
-sudo apt install rust sfml csfml git
+sudo apt install rustc libsfml git
 ```
 Then, you ***should*** be able to run the this project with the following commands:
 ```sh
