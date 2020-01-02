@@ -47,6 +47,7 @@ pub fn run_app() {
         Style::CLOSE,
         &ContextSettings::default(),
     );
+    window.set_framerate_limit(60);
 
     let font = load_font();
     let mut text = create_text("Happy New Years 2019", &*font);
@@ -59,7 +60,7 @@ pub fn run_app() {
     loop {
         let delta = clock.restart().as_milliseconds() as f32 / 1000.;
         // Handle events
-        if let Some(event) = window.poll_event() {
+        while let Some(event) = window.poll_event() {
             if let Event::Closed = event {
                 return;
             }
