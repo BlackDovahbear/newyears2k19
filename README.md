@@ -7,8 +7,8 @@
 Make sure you have the following packages on installed on your computer:
 + Git
 + Rust
-+ SFML
-+ CSFML
++ SFML 2.5: http://www.sfml-dev.org/download.php
++ CSFML 2.5: http://www.sfml-dev.org/download/csfml/
 
 ## Linux
 ### Arch
@@ -26,7 +26,7 @@ If any errors occur, please make an issue!
 ### Ubuntu
 For Ubuntu users, you can install all of the prerequisites with one command:
 ```sh
-sudo apt install rustc libsfml git
+sudo apt install rustc libsfml-dev git
 ```
 Then, you ***should*** be able to run the this project with the following commands:
 ```sh
